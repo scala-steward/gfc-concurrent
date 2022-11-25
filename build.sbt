@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "org.gfccollective" %% "gfc-time" % "1.0.0" % Test,
   "org.scalatest" %% "scalatest" % "3.2.14" % Test,
   "org.scalatestplus" %% "mockito-3-4" % "3.2.10.0" % Test,
-  "org.mockito" % "mockito-core" % "4.5.1" % Test,
+  "org.mockito" % "mockito-core" % "4.9.0" % Test,
 )
 
 publishMavenStyle := true
