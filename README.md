@@ -29,6 +29,16 @@ This object contains a bunch of sugar and little helpers that make working with 
   import org.gfccollective.concurrent.ScalaFutures._
   val futureWithTimeout = myFuture.withTimeout(1 minute)
 ```
+* Limit how long a scala Future can take by giving it a timeout Duration, after which it returns a default value
+```scala
+  import scala.concurrent.duration._
+  import org.gfccollective.concurrent.ScalaFutures._
+  val myFuture: Future[String] = Future {
+    // do something that may take some time
+    "value"
+  }
+  val futureWithTimeout = myFuture.withTimeoutDefault(1 second)("default value")
+```
 * Retry a Future until it succeeds, with or without delay:
 ```scala
   import scala.concurrent.duration._

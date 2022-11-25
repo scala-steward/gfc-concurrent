@@ -34,6 +34,25 @@ object Timeouts {
    */
   def timeout[T](after: FiniteDuration, errorMessage: Option[String]): Future[T] = scheduleTimeout(after, errorMessage)
 
+  /**
+   * Returns a Future that provides a value after a timeout.
+   *
+   * A succeeding Future is returned that will have the given value after the given expiration time.
+   *
+   * @param after A FiniteDuration instance with the ttl of this Future.
+   * @param value Value of the returned Future after the timeout has lapsed
+   */
+  def delayedValue[T](after: FiniteDuration)(value: => T): Future[T] = {
+    val timingOut = Promise[T]()
+
+    scheduledExecutor.schedule(after) {
+      timingOut.trySuccess(value)
+    }
+
+    timingOut.future
+  }
+
+
   // TODO unclear if an HashedWheelTimer would be more efficient
   private def scheduleTimeout[T](after: FiniteDuration, errorMessage: Option[String]): Future[T] = {
     val timingOut = Promise()

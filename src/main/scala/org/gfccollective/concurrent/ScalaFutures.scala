@@ -30,6 +30,10 @@ object ScalaFutures {
      */
     def withTimeout(after: FiniteDuration, errorMessage: Option[String])(implicit ec: ExecutionContext): Future[A] =
       Future.firstCompletedOf(Seq(f, Timeouts.timeout(after, errorMessage)))
+
+    def withTimeoutDefault(after: FiniteDuration)(default: => A)(implicit ec: ExecutionContext): Future[A] = {
+      Future.firstCompletedOf(Seq(f, Timeouts.delayedValue(after)(default)))
+    }
   }
 
   implicit class AsFuture[A](val a: A) extends AnyVal {
